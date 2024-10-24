@@ -7,25 +7,27 @@ on:
         description: "Target"
         required: true
         default: "main"
-      release-date:
-        description: "Release Date"
+      date:
+        description: "Date"
         required: true
-        default: "YYYYMMDD"
+        default: "YYYY/MM/DD"
 
 jobs:
   read-target:
     runs-on: ubuntu-latest
     outputs:
-      target: ${{ steps.target.outputs.target }}
+      target: ${{ steps.read-input.outputs.target }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read target
-        id: target
+      - name: Read input
+        id: read-input
         run: |
           TARGET=${{ github.event.inputs.target }}
+          DATE=${{ github.event.inputs.date }}
           echo $TARGET
+          echo $DATE
           echo "target=$TARGET" >> $GITHUB_OUTPUT
 
   kick-child:
