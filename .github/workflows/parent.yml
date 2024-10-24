@@ -26,8 +26,8 @@ jobs:
         run: |
           TARGET=${{ github.event.inputs.target }}
           DATE=${{ github.event.inputs.date }}
-          echo $TARGET
-          echo $DATE
+          echo target: $TARGET
+          echo date: $DATE
           echo "target=$TARGET" >> $GITHUB_OUTPUT
 
   kick-child:

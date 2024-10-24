@@ -25,7 +25,9 @@ jobs:
         id: read-target
         run: |
           BRANCH=${{ github.ref }}
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           TARGET=${{ github.event.inputs.target }}
-          echo $TARGET
-          echo $BRANCH
+          echo target: $TARGET
+          echo branch: $BRANCH
+          echo branch-name: $BRANCH_NAME
           echo "target=$TARGET" >> $GITHUB_ENV
