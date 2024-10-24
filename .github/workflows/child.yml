@@ -1,0 +1,31 @@
+name: Child Workflow
+
+on:
+  push:
+    branches:
+      - development
+
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Target"
+        required: true
+        default: "main"
+
+jobs:
+  read-target:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: read-target
+        id: read-target
+        run: |
+          BRANCH=${{ github.ref }}
+          TARGET=${{ github.event.inputs.target }}
+          echo $TARGET
+          echo $BRANCH
+          echo "target=$TARGET" >> $GITHUB_ENV

@@ -1,0 +1,47 @@
+name: Parent Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Target"
+        required: true
+        default: "main"
+      release-date:
+        description: "Release Date"
+        required: true
+        default: "YYYYMMDD"
+
+jobs:
+  read-target:
+    runs-on: ubuntu-latest
+    outputs:
+      target: ${{ steps.target.outputs.target }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read target
+        id: target
+        run: |
+          TARGET=${{ github.event.inputs.target }}
+          echo $TARGET
+          echo "target=$TARGET" >> $GITHUB_OUTPUT
+
+  kick-child:
+    needs: read-target
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger child workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const response = await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: `deploy_${service}.yml`,
+              ref: `${{ env.TARGET }}`,
+              inputs: {
+                "target": `${{ env.TARGET }}`,
+              }
+            });
