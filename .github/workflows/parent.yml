@@ -33,6 +33,8 @@ jobs:
   kick-child:
     needs: read-target
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
     steps:
       - name: Trigger child workflow
         uses: actions/github-script@v7

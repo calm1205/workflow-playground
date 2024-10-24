@@ -15,8 +15,6 @@ on:
 jobs:
   read-target:
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
