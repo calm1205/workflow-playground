@@ -26,8 +26,8 @@ jobs:
         run: |
           TARGET=${{ github.event.inputs.target }}
           DATE=${{ github.event.inputs.date }}
-          echo target: $TARGET
-          echo date: $DATE
+          echo TARGET: $TARGET
+          echo DATE: $DATE
           echo "target=$TARGET" >> $GITHUB_OUTPUT
 
   kick-child:
@@ -46,8 +46,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: `child.yml`,
-              ref: `${{ env.TARGET }}`,
+              ref: `${{ needs.read-target.outputs.target }}`,
               inputs: {
-                "target": `${{ env.TARGET }}`,
+                "target": `${{ needs.read-target.outputs.target }}`,
               }
             });
