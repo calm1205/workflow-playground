@@ -36,6 +36,11 @@ jobs:
     permissions:
       actions: write
     steps:
+      - name: read
+        run: |
+          echo target: ${{ needs.read-target.outputs.target }}
+        shell: bash
+
       - name: Trigger child workflow
         uses: actions/github-script@v7
         env:
